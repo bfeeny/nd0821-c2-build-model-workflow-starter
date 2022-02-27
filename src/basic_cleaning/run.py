@@ -40,6 +40,10 @@ def go(args):
     # Convert last_review to datetime
     df['last_review'] = pd.to_datetime(df['last_review'])
 
+    # Remove data points that are outside of NYC limits
+    idx = df['longitude'].between(-74.25, -73.50) & df['latitude'].between(40.5, 41.2)
+    df = df[idx].copy()
+
     logger.info("Save the results to CSV")
     df.to_csv("clean_sample.csv", index=False)
 
